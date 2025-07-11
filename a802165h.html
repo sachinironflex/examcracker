@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SGS EXAM CRACKER</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #f4f4f4;
+      --text: #000;
+      --primary: #6200ea;
+      --btn: #2196f3;
+      --btn-hover: #1976d2;
+      --danger: #ff5722;
+    }
+    body.dark {
+      --bg: #121212;
+      --text: #fff;
+      --primary: #bb86fc;
+      --btn: #3700b3;
+      --btn-hover: #6200ea;
+      --danger: #cf6679;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0 auto;
+      font-size: 20px;
+    }
+    #userName {
+      display: none;
+    }
+    #logoutBtn button, .toggle-btn {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    #helloUser {
+      padding: 10px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    #menuToggle {
+      position: fixed;
+      top: 15px;
+      left: 10px;
+      background: var(--btn);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 6px 10px;
+      z-index: 1000;
+    }
+
+    .drawer {
+      position: fixed;
+      left: 0;
+      top: 60px;
+      width: 180px;
+      background: transparent;
+      padding: 10px;
+      z-index: 999;
+      display: none;
+    }
+    .drawer.show { display: block; }
+    .drawer button {
+      width: 100%;
+      background: white;
+      color: var(--primary);
+      font-weight: bold;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .section { padding: 20px; display: none; }
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+      padding: 20px;
+    }
+    .grid-btn {
+      padding: 30px;
+      background: var(--btn);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+    }
+    .grid-btn:hover { background: var(--btn-hover); transform: scale(1.05); }
+
+    .auth-toggle { display: flex; gap: 10px; margin: 20px; }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    textarea { height: 120px; }
+
+    .hidden { display: none; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 16px; }
+      .grid-btn { padding: 20px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <button id="menuToggle" onclick="toggleDrawer()">☰</button>
+
+  <div class="drawer" id="drawer">
+    <button onclick="openSection('About')">📘 About</button>
+    <button onclick="openSection('Privacy')">🔐 Privacy</button>
+    <button onclick="openSection('Terms')">📄 Terms</button>
+  </div>
+
+  <header>
+    <span id="userName"></span>
+    <h1>SGS EXAM CRACKER</h1>
+    <div id="logoutBtn">
+      <button onclick="logout()">Logout</button>
+      <button onclick="toggleDarkMode()">Dark Mode</button>
+    </div>
+  </header>
+
+  <div id="helloUser"></div>
+
+  <div class="section" id="authSection">
+    <div class="auth-toggle">
+      <button onclick="showLogin()">Login</button>
+      <button onclick="showSignup()">Signup</button>
+      <button onclick="showAgentLogin()">Agent</button>
+    </div>
+
+    <div id="loginForm">
+      <input type="text" id="loginUser" placeholder="Username">
+      <input type="password" id="loginPass" placeholder="Password">
+      <button onclick="login()">Login</button>
+    </div>
+
+    <div id="signupForm" class="hidden">
+      <input type="text" id="signupUser" placeholder="New Username">
+      <input type="password" id="signupPass" placeholder="New Password">
+      <button onclick="signup()">Signup</button>
+    </div>
+
+    <div id="agentForm" class="hidden">
+      <input type="text" id="agentUser" placeholder="Agent ID">
+      <input type="password" id="agentPass" placeholder="Password">
+      <button onclick="agentLogin()">Login as Agent</button>
+    </div>
+  </div>
+
+  <div class="section" id="mainSection">
+    <div class="button-grid" id="buttonGrid">
+      <button class="grid-btn" onclick="openSection('📕 PAID PDF')">📕 PAID PDF</button>
+      <button class="grid-btn" onclick="openSection('📗 FREE PDF')">📗 FREE PDF</button>
+      <button class="grid-btn" onclick="openSection('📝 MOCK TEST')">📝 MOCK TEST</button>
+      <button class="grid-btn" onclick="openSection('🏛 VKSU')">🏛 VKSU</button>
+      <button class="grid-btn" onclick="openSection('💼 GOV JOB')">💼 GOV JOB</button>
+      <button class="grid-btn" onclick="openSection('📢 NOTICE BOARD')">📢 NOTICE BOARD</button>
+      <button class="grid-btn" onclick="openSection('📜 PREVIOUS YEAR')">📜 PREVIOUS YEAR</button>
+      <button class="grid-btn" onclick="openSection('🚔 SSC GD')">🚔 SSC GD</button>
+      <button class="grid-btn" onclick="openSection('📦 SSC MTS')">📦 SSC MTS</button>
+    </div>
+    <div id="contentArea" style="margin-top:20px;"></div>
+    <div id="adminEditor" class="hidden">
+      <textarea id="htmlInput"></textarea>
+      <button onclick="saveHtml()">Save</button>
+      <button onclick="deleteHtml()">Delete</button>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null, currentSection = '', pageHistory = [];
+
+    window.onload = () => {
+      if (localStorage.getItem("darkMode") === "true") document.body.classList.add("dark");
+      const saved = localStorage.getItem("currentUser");
+      if (saved) { currentUser = saved; showMain(); }
+      else document.getElementById("authSection").style.display = "block";
+    };
+
+    function showLogin() {
+      loginForm.classList.remove("hidden");
+      signupForm.classList.add("hidden");
+      agentForm.classList.add("hidden");
+    }
+
+    function showSignup() {
+      signupForm.classList.remove("hidden");
+      loginForm.classList.add("hidden");
+      agentForm.classList.add("hidden");
+    }
+
+    function showAgentLogin() {
+      agentForm.classList.remove("hidden");
+      loginForm.classList.add("hidden");
+      signupForm.classList.add("hidden");
+    }
+
+    function signup() {
+      const user = signupUser.value, pass = signupPass.value;
+      if (user && pass) {
+        localStorage.setItem("user_" + user, pass);
+        alert("Signup successful!");
+        showLogin();
+      }
+    }
+
+    function login() {
+      const user = loginUser.value, pass = loginPass.value;
+      if (localStorage.getItem("user_" + user) === pass) {
+        currentUser = user;
+        localStorage.setItem("currentUser", user);
+        showMain();
+      } else alert("Invalid login");
+    }
+
+    function agentLogin() {
+      if (agentUser.value === "Sachin" && agentPass.value === "802165") {
+        currentUser = "Admin";
+        localStorage.setItem("currentUser", "Admin");
+        showMain();
+      } else alert("Invalid agent credentials");
+    }
+
+    function showMain() {
+      document.getElementById("authSection").style.display = "none";
+      document.getElementById("mainSection").style.display = "block";
+      document.getElementById("helloUser").textContent = "👋 Hello, " + currentUser;
+    }
+
+    function openSection(name) {
+      currentSection = name;
+      pageHistory.push(contentArea.innerHTML);
+      const html = localStorage.getItem("content_" + name) || `<p>No content posted for <b>${name}</b>.</p>`;
+      contentArea.innerHTML = `<h2>${name}</h2>` + html;
+      document.getElementById("buttonGrid").style.display = "none";
+      document.getElementById("drawer").style.display = "none";
+      if (currentUser === "Admin") {
+        adminEditor.classList.remove("hidden");
+        htmlInput.value = localStorage.getItem("content_" + name) || "";
+      } else adminEditor.classList.add("hidden");
+      history.pushState({ page: name }, "");
+    }
+
+    window.onpopstate = () => {
+      document.getElementById("buttonGrid").style.display = "grid";
+      document.getElementById("drawer").style.display = "block";
+      contentArea.innerHTML = "";
+    };
+
+    function saveHtml() {
+      const html = htmlInput.value;
+      localStorage.setItem("content_" + currentSection, html);
+      alert("Content saved!");
+      openSection(currentSection);
+    }
+
+    function deleteHtml() {
+      if (confirm("Delete this content?")) {
+        localStorage.removeItem("content_" + currentSection);
+        openSection(currentSection);
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("currentUser");
+      location.reload();
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+    }
+
+    function toggleDrawer() {
+      document.getElementById("drawer").classList.toggle("show");
+    }
+  </script>
+
+</body>
+</html>
